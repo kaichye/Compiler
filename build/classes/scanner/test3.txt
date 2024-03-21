@@ -1,0 +1,13 @@
+int foo(int a, int b) {
+	return (a + b);
+}
+
+int i = 12;
+if (i < 13) {
+	int a = 1;
+} else {
+	int a = 2;
+}
+
+int res = foo(i, a);
+

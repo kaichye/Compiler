@@ -1,0 +1,17 @@
+int x;
+int y;
+int z[12];
+
+int a(void) {
+    int a;
+}
+
+
+void b(int b) {
+    int b;
+}
+
+
+/*a*/
+/*int q*/
+/*int 1;*/
