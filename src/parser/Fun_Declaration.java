@@ -6,11 +6,11 @@ import scanner.Token;
 
 public class Fun_Declaration extends Declaration {
     Token.TokenType type;
-    String val;
+    ID_Expression val;
     ArrayList<Param> params;
     Compound_Statement cs;
     
-    public Fun_Declaration(Token.TokenType t, String s, ArrayList<Param> p, Compound_Statement c) {
+    public Fun_Declaration(Token.TokenType t, ID_Expression s, ArrayList<Param> p, Compound_Statement c) {
         type = t;
         val = s;
         params = p;
@@ -21,10 +21,15 @@ public class Fun_Declaration extends Declaration {
     public void print(String indent) {
         indent += "    ";
         if (type == Token.TokenType.INT_TOKEN) {
-            System.out.println(indent + "int " + val + " (");
+            System.out.print(indent + "int ");
+            val.print(indent);
+            System.out.println(" (");
         } else if (type == Token.TokenType.VOID_TOKEN) {
-            System.out.println(indent + "void " + val + " (");
+            System.out.print(indent + "void ");
+            val.print(indent); 
+            System.out.println(" (");
         }
+        indent += "    ";
         for (int i = 0; i < params.size(); i++) {
             params.get(i).print(indent);
         }

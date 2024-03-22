@@ -6,10 +6,10 @@ import scanner.Token;
 
 public class Param {
     Token.TokenType type;
-    String var;
-    String size;
+    Expression var;
+    NUM_Expression size;
     
-    public Param(Token.TokenType t, String st, String si) {
+    public Param(Token.TokenType t, Expression st, NUM_Expression si) {
         type = t;
         var = st;
         size = si;
@@ -19,10 +19,16 @@ public class Param {
         indent += "    ";
         if (type == Token.TokenType.VOID_TOKEN) {
             System.out.println(indent + "void");
-        } else if (size.equals("0")) {
-            System.out.println(indent + "int" + " " + var);
+        } else if (size.getVal().equals("0")) {
+            System.out.print(indent + "int" + " ");
+            var.print(indent);
+            System.out.println();
         } else {
-            System.out.println(indent + "int" + " " + var + "[" + size + "]");
+            System.out.print(indent + "int" + " ");
+            var.print(indent);
+            System.out.print("["); 
+            size.print(indent); 
+            System.out.println("]");
         }
     }
     
@@ -31,18 +37,17 @@ public class Param {
         
         if (CMinusParser.currentToken.getType() == Token.TokenType.VOID_TOKEN) {
             CMinusParser.advanceToken();
-            Param p = new Param(Token.TokenType.VOID_TOKEN, "", "");
+            Param p = new Param(Token.TokenType.VOID_TOKEN, new ID_Expression(""), new NUM_Expression(""));
             params.add(p);
         } else if (CMinusParser.currentToken.getType() == Token.TokenType.INT_TOKEN) {
             CMinusParser.advanceToken();
-            //FIXME TODO replace String with Expression
-            String val = CMinusParser.matchToken(Token.TokenType.ID_TOKEN);
+            ID_Expression val = new ID_Expression(CMinusParser.matchToken(Token.TokenType.ID_TOKEN));
 
             // Check for array
-            String size = "0";
+            NUM_Expression size = new NUM_Expression("0");
             if (CMinusParser.currentToken.getType() == Token.TokenType.OPEN_SQUARE_TOKEN) {
                 CMinusParser.advanceToken();
-                size = CMinusParser.matchToken(Token.TokenType.CONST_TOKEN);
+                size = new NUM_Expression(CMinusParser.matchToken(Token.TokenType.CONST_TOKEN));
                 CMinusParser.matchToken(Token.TokenType.CLOSED_SQUARE_TOKEN);
             }
 
@@ -53,25 +58,22 @@ public class Param {
                 CMinusParser.advanceToken();
                 if (CMinusParser.currentToken.getType() == Token.TokenType.INT_TOKEN) {
                     CMinusParser.advanceToken();
-                    //FIXME TODO replace String with Expression
-                    val = CMinusParser.matchToken(Token.TokenType.ID_TOKEN);
+                    val = new ID_Expression(CMinusParser.matchToken(Token.TokenType.ID_TOKEN));
 
                     // Check for array
-                    size = "0";
+                    size = new NUM_Expression("0");
                     if (CMinusParser.currentToken.getType() == Token.TokenType.OPEN_SQUARE_TOKEN) {
                         CMinusParser.advanceToken();
-                        size = CMinusParser.matchToken(Token.TokenType.CONST_TOKEN);
+                        size = new NUM_Expression(CMinusParser.matchToken(Token.TokenType.CONST_TOKEN));
                         CMinusParser.matchToken(Token.TokenType.CLOSED_SQUARE_TOKEN);
                     }
-
-                    CMinusParser.matchToken(Token.TokenType.COMMA_TOKEN);
 
                     p = new Param(Token.TokenType.INT_TOKEN, val, size);
                     params.add(p);
                 }
             }
         } else {
-            throw new CMinusException("parseParam: " + CMinusParser.currentToken.getType() + " is not INT or VOID");
+            throw new CMinusParserException("parseParam: " + CMinusParser.currentToken.getType() + " is not INT or VOID");
         }
         
         return params;

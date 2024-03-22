@@ -22,14 +22,13 @@ public class Statement {
         if (CMinusParser.currentToken.getType() == Token.TokenType.INT_TOKEN) {
             while(CMinusParser.currentToken.getType() == Token.TokenType.INT_TOKEN) {
                 CMinusParser.advanceToken();
-                //FIXME TODO replace String with Expression
-                String val = CMinusParser.matchToken(Token.TokenType.ID_TOKEN);
+                ID_Expression val = new ID_Expression(CMinusParser.matchToken(Token.TokenType.ID_TOKEN));
 
                 // Check for array
-                String size = "0";
+                NUM_Expression size = new NUM_Expression("0");
                 if (CMinusParser.currentToken.getType() == Token.TokenType.OPEN_SQUARE_TOKEN) {
                     CMinusParser.advanceToken();
-                    size = CMinusParser.matchToken(Token.TokenType.CONST_TOKEN);
+                    size = new NUM_Expression(CMinusParser.matchToken(Token.TokenType.CONST_TOKEN));
                     CMinusParser.matchToken(Token.TokenType.CLOSED_SQUARE_TOKEN);
                 }
 
@@ -47,7 +46,7 @@ public class Statement {
                 CMinusParser.currentToken.getType() != Token.TokenType.CONST_TOKEN && 
                 CMinusParser.currentToken.getType() != Token.TokenType.OPEN_PAREN_TOKEN && 
                 CMinusParser.currentToken.getType() != Token.TokenType.CLOSED_CURLY_TOKEN) {
-            throw new CMinusException("parseLocalDecl: " + CMinusParser.currentToken.getType() + " is not in First or Follow set or local-decl");
+            throw new CMinusParserException("parseLocalDecl: " + CMinusParser.currentToken.getType() + " is not in First or Follow set of local-decl");
         }
 
         return local_decl;
@@ -70,7 +69,7 @@ public class Statement {
         } else if (CMinusParser.currentToken.getType() == Token.TokenType.OPEN_CURLY_TOKEN){
             s = parseCompoundStmt();
         } else {
-            throw new CMinusException("parseStatement: " + CMinusParser.currentToken.getType() + " is not in First set of statement");
+            throw new CMinusParserException("parseStatement: " + CMinusParser.currentToken.getType() + " is not in First set of statement");
         }
         
         return s;

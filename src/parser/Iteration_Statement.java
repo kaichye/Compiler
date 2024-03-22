@@ -11,7 +11,13 @@ public class Iteration_Statement extends Statement {
     
     @Override
     public void print(String indent) {
+        indent += "    ";
+        System.out.println(indent + "while (");
+        indent += "    ";
         exp.print(indent);
+        System.out.println(indent + ")");
+        System.out.println(indent + "{");
         stmt.print(indent);
+        System.out.println(indent + "}");
     }
 }

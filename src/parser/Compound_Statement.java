@@ -21,4 +21,8 @@ public class Compound_Statement extends Statement {
             statement_list.get(i).print(indent);
         }
     }
+    
+    public int getSize() {
+        return local_decl.size() + statement_list.size();
+    }
 }

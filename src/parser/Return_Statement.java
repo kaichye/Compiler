@@ -9,6 +9,15 @@ public class Return_Statement extends Statement {
     
     @Override
     public void print(String indent) {
-        exp.print(indent);
+        indent += "    ";
+        System.out.print(indent + "return ");
+        if (exp != null) {
+            exp.print(indent);
+        } else {
+            System.out.println();
+        }
+        if (exp instanceof ID_Expression || exp instanceof NUM_Expression) {
+            System.out.println();
+        }
     }
 }

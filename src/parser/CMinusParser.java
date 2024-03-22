@@ -11,6 +11,7 @@ public class CMinusParser extends Parser {
         scanner = new CMinusScanner(file);
     }
     
+    @Override
     public Program parse() {
         currentToken = scanner.getNextToken();
         Program p = new Program();
@@ -23,7 +24,7 @@ public class CMinusParser extends Parser {
             advanceToken();
             return data;
         }
-        throw new CMinusException("matchToken: " + type + " does not match " + currentToken.getType());
+        throw new CMinusParserException("matchToken: " + type + " does not match " + currentToken.getType());
     }
     
     public static void advanceToken() {
@@ -39,9 +40,10 @@ public class CMinusParser extends Parser {
     }
     
     public static void main(String[] args) {
-        CMinusParser parser = new CMinusParser("C:\\Users\\kaich\\OneDrive - Cedarville University\\Classes\\Junior\\Spring\\Compiler\\Project\\Compiler\\src\\parser\\test1.txt");
-        
-        Program myProgram = parser.parse();
-        myProgram.print();
+        String filename = "C:\\Users\\kaich\\OneDrive - Cedarville University\\Classes\\Junior\\Spring\\Compiler\\Project\\Compiler\\src\\parser\\testcode";
+        String sourceFile = filename + ".c";
+        Parser myParser = new CMinusParser (sourceFile);
+        Program parseTree = myParser.parse();
+        parseTree.printAST();
     }
 }

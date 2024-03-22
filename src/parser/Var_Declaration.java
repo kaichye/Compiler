@@ -4,10 +4,10 @@ import scanner.*;
 
 public class Var_Declaration extends Declaration {
     Token.TokenType type;
-    String var;
-    String size;
+    ID_Expression var;
+    NUM_Expression size;
     
-    public Var_Declaration(Token.TokenType t, String st, String si) {
+    public Var_Declaration(Token.TokenType t, ID_Expression st, NUM_Expression si) {
         type = t;
         var = st;
         size = si;
@@ -16,10 +16,16 @@ public class Var_Declaration extends Declaration {
     @Override
     public void print(String indent) {
         indent += "    ";
-        if (size.equals("0")) {
-            System.out.println(indent + "int" + " " + var);
+        if (size.getVal().equals("0")) {
+            System.out.print(indent + "int" + " ");
+            var.print(indent);
+            System.out.println();
         } else {
-            System.out.println(indent + "int" + " " + var + "[" + size + "]");
+            System.out.print(indent + "int" + " ");
+            var.print(indent); 
+            System.out.print("[");
+            size.print(indent); 
+            System.out.println("]");
         }
     }
 }
