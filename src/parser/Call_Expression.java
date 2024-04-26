@@ -1,6 +1,7 @@
 package parser;
 
 import java.util.ArrayList;
+import lowlevel.*;
 
 
 public class Call_Expression extends Expression {
@@ -34,5 +35,30 @@ public class Call_Expression extends Expression {
             }
         }
         System.out.println(indent + ")");
+    }
+    
+    @Override
+    public int genLLCode(Function func) {
+        int regNum = func.getNewRegNum();
+        
+        BasicBlock curr = func.getCurrBlock();
+        
+        for (int i = 0; i < args.size(); i++) {
+            Operation newOper = new Operation(Operation.OperationType.PASS, curr);
+            Operand temp = new Operand(Operand.OperandType.REGISTER, args.get(i).genLLCode(func));
+            newOper.setSrcOperand(0, temp);
+            newOper.addAttribute(new Attribute("PARAM_NUM", ((Integer)i).toString()));
+            curr.appendOper(newOper);
+        }
+        
+        Operation newOper2 = new Operation(Operation.OperationType.CALL, curr);
+        Operand src = new Operand(Operand.OperandType.STRING, id.val);
+        newOper2.setSrcOperand(0, src);
+        newOper2.addAttribute(new Attribute("numParams", ((Integer)args.size()).toString()));
+        curr.appendOper(newOper2);
+        
+       
+        
+        return regNum;
     }
 }

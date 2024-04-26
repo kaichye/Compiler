@@ -1,6 +1,7 @@
 package parser;
 
 import java.util.ArrayList;
+import lowlevel.*;
 
 
 public class Compound_Statement extends Statement {
@@ -24,5 +25,20 @@ public class Compound_Statement extends Statement {
     
     public int getSize() {
         return local_decl.size() + statement_list.size();
+    }
+    
+    @Override
+    public void genLLCode(Function func) {
+        for (int i = 0; i < local_decl.size(); i++) {
+            //FIXME TODO Error when same name exists
+            local_decl.get(i).genLLCode(func);
+        }
+        
+        BasicBlock stmts = new BasicBlock(func);
+        func.appendToCurrentBlock(stmts);
+        func.setCurrBlock(stmts);
+        for (int i = 0; i < statement_list.size(); i++) {
+            statement_list.get(i).genLLCode(func);
+        }
     }
 }

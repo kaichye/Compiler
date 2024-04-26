@@ -15,4 +15,8 @@ public abstract class Parser {
     public static void advanceToken() {
 
     }
+    
+    public static void printAST(Program parseTree) {
+
+    }
 }

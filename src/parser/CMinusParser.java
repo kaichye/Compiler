@@ -1,6 +1,7 @@
 package parser;
 
 import scanner.*;
+import lowlevel.*;
 
 
 public class CMinusParser extends Parser {
@@ -24,7 +25,7 @@ public class CMinusParser extends Parser {
             advanceToken();
             return data;
         }
-        throw new CMinusParserException("matchToken: " + type + " does not match " + currentToken.getType());
+        throw new CMinusParserException("matchToken: " + currentToken.getType() + " does not match " + type);
     }
     
     public static void advanceToken() {
@@ -39,8 +40,12 @@ public class CMinusParser extends Parser {
         return currentToken.getType() == Token.TokenType.VOID_TOKEN;
     }
     
+    public static void printAST(Program parseTree) {
+        parseTree.printAST();
+    }
+    
     public static void main(String[] args) {
-        String filename = "C:\\Users\\kaich\\OneDrive - Cedarville University\\Classes\\Junior\\Spring\\Compiler\\Project\\Compiler\\src\\parser\\testcode";
+        String filename = "C:\\Users\\kaich\\OneDrive - Cedarville University\\Classes\\Junior\\Spring\\Compiler\\Project\\Compiler\\src\\parser\\nested_if";
         String sourceFile = filename + ".c";
         Parser myParser = new CMinusParser (sourceFile);
         Program parseTree = myParser.parse();

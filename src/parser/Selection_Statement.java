@@ -16,12 +16,16 @@ public class Selection_Statement extends Statement {
     public void print(String indent) {
         indent += "    ";
         System.out.println(indent + "if (");
-        indent += "    ";
-        exp.print(indent);
-        System.out.println(indent + ")");
-        System.out.println(indent + "{");
+        exp.print(indent + "    ");
+        System.out.println(indent + "    " + ")");
+        if (if_stmt instanceof Compound_Statement && ((Compound_Statement)if_stmt).getSize() > 1) {
+            indent += "    ";
+            System.out.println(indent + "{");
+        }
         if_stmt.print(indent);
-        System.out.println(indent + "}");
+        if (if_stmt instanceof Compound_Statement && ((Compound_Statement)if_stmt).getSize() > 1) {
+            System.out.println(indent + "}");
+        }
         if (else_stmt != null) {
             System.out.print(indent + "else");
             if (else_stmt instanceof Compound_Statement && ((Compound_Statement)else_stmt).getSize() > 1) {

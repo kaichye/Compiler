@@ -2,6 +2,7 @@ package parser;
 
 import java.util.ArrayList;
 import scanner.Token;
+import lowlevel.*;
 
 
 public class Statement {
@@ -159,4 +160,6 @@ public class Statement {
     }
     
     public void print(String indent) {}
+    
+    public void genLLCode(Function func) {}
 }

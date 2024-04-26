@@ -1,6 +1,7 @@
 package parser;
 
 import scanner.*;
+import lowlevel.*;
 
 public class Var_Declaration extends Declaration {
     Token.TokenType type;
@@ -28,5 +29,10 @@ public class Var_Declaration extends Declaration {
             System.out.println("]");
         }
     }
+    
+    public void genLLCode(CodeItem temp){}
+    
+    public void genLLCode(Function func) {
+        func.getTable().put(var.val, func.getNewRegNum());
+    }
 }
-
