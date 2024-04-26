@@ -34,9 +34,11 @@ public class Compound_Statement extends Statement {
             local_decl.get(i).genLLCode(func);
         }
         
-        BasicBlock stmts = new BasicBlock(func);
-        func.appendToCurrentBlock(stmts);
-        func.setCurrBlock(stmts);
+        if (func.getFirstBlock() == func.getCurrBlock()) {
+            BasicBlock stmts = new BasicBlock(func);
+            func.appendToCurrentBlock(stmts);
+            func.setCurrBlock(stmts);
+        }
         for (int i = 0; i < statement_list.size(); i++) {
             statement_list.get(i).genLLCode(func);
         }

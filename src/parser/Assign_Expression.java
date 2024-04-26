@@ -47,16 +47,25 @@ public class Assign_Expression extends Expression {
         int lReg = lhs.genLLCode(func);
         int rReg = rhs.genLLCode(func);
         
-        Operation newOper = new Operation(Operation.OperationType.ASSIGN, curr);
-        Operand src = new Operand(Operand.OperandType.REGISTER, lReg);
-        Operand dst = new Operand(Operand.OperandType.REGISTER, rReg);
-        newOper.setSrcOperand(0, src);
-        newOper.setDestOperand(0, dst);
-        curr.appendOper(newOper);
         
         if (func.getTable().containsKey(((ID_Expression)lhs).val)) {
+            Operation newOper = new Operation(Operation.OperationType.ASSIGN, curr);
+            Operand src = new Operand(Operand.OperandType.REGISTER, rReg);
+            Operand dst = new Operand(Operand.OperandType.REGISTER, lReg);
+            newOper.setSrcOperand(0, src);
+            newOper.setDestOperand(0, dst);
+            curr.appendOper(newOper);
+            
             regNum = lReg;
         } else {
+            Operation newOper = new Operation(Operation.OperationType.STORE_I, curr);
+            Operand src = new Operand(Operand.OperandType.REGISTER, rReg);
+            Operand src1 = new Operand(Operand.OperandType.STRING, ((ID_Expression)lhs).val);
+           
+            newOper.setSrcOperand(0, src);
+            newOper.setSrcOperand(1, src1);
+            curr.appendOper(newOper);
+            
             regNum = rReg;
         }
         

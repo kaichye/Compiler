@@ -27,11 +27,13 @@ public class Return_Statement extends Statement {
     public void genLLCode(Function func) {
         BasicBlock curr = func.getCurrBlock();
         
-        Operation newOper = new Operation(Operation.OperationType.ASSIGN, curr);
-        Operand src = new Operand(Operand.OperandType.REGISTER, exp.genLLCode(func));
-        Operand dst = new Operand(Operand.OperandType.MACRO,"RetReg");
-        newOper.setSrcOperand(0, src);
-        newOper.setDestOperand(0, dst);
-        curr.appendOper(newOper);
+        if (exp != null) {
+            Operation newOper = new Operation(Operation.OperationType.ASSIGN, curr);
+            Operand src = new Operand(Operand.OperandType.REGISTER, exp.genLLCode(func));
+            Operand dst = new Operand(Operand.OperandType.MACRO,"RetReg");
+            newOper.setSrcOperand(0, src);
+            newOper.setDestOperand(0, dst);
+            curr.appendOper(newOper);
+        }
     }
 }

@@ -57,6 +57,13 @@ public class Call_Expression extends Expression {
         newOper2.addAttribute(new Attribute("numParams", ((Integer)args.size()).toString()));
         curr.appendOper(newOper2);
         
+        
+        Operation newOper = new Operation(Operation.OperationType.ASSIGN, curr);
+        src = new Operand(Operand.OperandType.MACRO, "RetReg");
+        Operand dst = new Operand(Operand.OperandType.REGISTER, regNum);
+        newOper.setSrcOperand(0, src);
+        newOper.setDestOperand(0, dst);
+        curr.appendOper(newOper);
        
         
         return regNum;

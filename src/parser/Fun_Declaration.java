@@ -72,6 +72,9 @@ public class Fun_Declaration extends Declaration {
         
         func.genReturnBlock();
         func.appendBlock(func.getReturnBlock());
+        if (func.getFirstUnconnectedBlock() != null) {
+            func.appendBlock(func.getFirstUnconnectedBlock());
+        }
     }
     
     public int getType() {
